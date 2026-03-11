@@ -32,6 +32,10 @@ public class ProductVariant {
     private BigDecimal priceAdjustment; // Giá cộng thêm nếu có
 
     @Column(name = "stock_quantity", nullable = false)
-    private Integer stockQuantity;
+    private Integer stockQuantity; // Số lượng thực tế trong kho
+
+    @Column(name = "reserved_stock", nullable = false)
+    @Builder.Default
+    private Integer reservedStock = 0; // Số luợng giữ chỗ chờ thanh toán
 
 }

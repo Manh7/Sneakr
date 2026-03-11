@@ -24,4 +24,7 @@ public class ProductImage {
 
     @Column(name = "is_primary")
     private Boolean isPrimary;
+
+    @Column(name = "color")
+    private String color;
 }

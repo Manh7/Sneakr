@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductVariantRepository extends JpaRepository<ProductVariant, String> {
+    boolean existsBySku(String sku);
 }
