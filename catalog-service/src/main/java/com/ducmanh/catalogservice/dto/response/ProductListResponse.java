@@ -1,0 +1,21 @@
+package com.ducmanh.catalogservice.dto.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ProductListResponse {
+    private String id;
+    private String name;
+    private BigDecimal basePrice;
+    private String categoryName;
+    private String brandName;
+    private String primaryImageUrl; // Lấy một ảnh đại diện
+}

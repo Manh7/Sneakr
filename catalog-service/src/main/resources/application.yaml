@@ -15,8 +15,13 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB # Giới hạn dung lượng ảnh upload
+      max-request-size: 100MB
 
-jwt:
-  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
-  valid-duration: 3600
-  refreshable-duration: 36000 # in secondsspring.application.name=catalog-service
+cloudinary:
+  cloud-name: dorj9xmgl
+  api-key: 889632976327945
+  api-secret: "I-HERiT4x4xUUDDdAVFmFZoqoVk"
