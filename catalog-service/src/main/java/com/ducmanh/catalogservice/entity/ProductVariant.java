@@ -28,7 +28,7 @@ public class ProductVariant {
 
     private String color;
 
-    @Column(name = "price_adjustment", precision = 10, scale = 2)
+    @Column(name = "price_adjustment", precision = 12, scale = 2)
     private BigDecimal priceAdjustment; // Giá cộng thêm nếu có
 
     @Column(name = "stock_quantity", nullable = false)

@@ -1,4 +1,4 @@
-package com.ducmanh.cartservice.dto.response;
+package com.ducmanh.orderservice.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
