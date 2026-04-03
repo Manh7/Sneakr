@@ -1,7 +1,8 @@
-package com.ducmanh.cartservice.httpClient;
+package com.ducmanh.orderservice.httpClient;
 
-import com.ducmanh.cartservice.dto.ApiResponse;
-import com.ducmanh.cartservice.dto.response.ProductVariantResponse;
+
+import com.ducmanh.orderservice.dto.ApiResponse;
+import com.ducmanh.orderservice.dto.response.ProductVariantResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -1,6 +1,6 @@
-package com.ducmanh.cartservice.dto.request;
+package com.ducmanh.orderservice.dto.request;
 
-import jakarta.validation.constraints.Min;
+import com.ducmanh.orderservice.enums.OrderStatus;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CartUpdateRequest {
+public class OrderStatusUpdateRequest {
     @NotNull
-    @Min(value = 1, message = "Quantity must be at least 1")
-    private Integer quantity;
+    private OrderStatus status;
+
+    private String note;
 }

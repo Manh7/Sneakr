@@ -36,7 +36,7 @@ public class Product {
     @JoinColumn(name= "brand_id", nullable = false)
     private Brand brand;
 
-    @Column(name = "base_price", precision = 10, scale = 2)
+    @Column(name = "base_price", precision = 12, scale = 2)
     private BigDecimal basePrice;
 
     @CreationTimestamp

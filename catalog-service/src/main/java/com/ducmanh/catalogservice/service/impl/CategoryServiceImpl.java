@@ -63,19 +63,24 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy danh mục"));
 
-        categoryMapper.updateEntityFromRequest(request, category);
-
-        if(request.getParentId() != null && !request.getParentId().trim().isEmpty()){
-            // danh mục không thể làm cha của chính nó
-            if (id.equals(request.getParentId())) {
-                throw new RuntimeException("Danh mục không thể làm cha của chính nó!");
-            }
-            Category parentCategory = categoryRepository.findById(request.getParentId())
-                    .orElseThrow(() -> new RuntimeException("Không tìm thấy danh mục cha"));
-            category.setParent(parentCategory);
+        // Cập nhật Tên
+        if (request.getName() != null) {
+            category.setName(request.getName());
         }
-        else{
-            category.setParent(null); // nếu không có parentId thì set parent là null
+
+        // Cập nhật Parent
+        if (request.getParentId() != null) {
+            Category newParent = categoryRepository.findById(request.getParentId())
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy danh mục cha"));
+
+            // BƯỚC QUAN TRỌNG: CHẶN VÒNG LẶP Ở ĐÂY
+            validateNoCyclicDependency(category.getId(), newParent);
+
+            category.setParent(newParent);
+
+        } else if (request.getParentId() == null) {
+            // Cần có 1 cờ để biết Admin thực sự muốn gỡ bỏ parent (chuyển thành Root)
+            category.setParent(null);
         }
 
         category = categoryRepository.save(category);
@@ -115,4 +120,31 @@ public class CategoryServiceImpl implements CategoryService {
 //                .subCategories(subCategoryResponses)
 //                .build();
 //    }
+
+    /**
+     * Kiểm tra xem newParent có hợp lệ không.
+     * Tránh trường hợp:
+     * 1. A làm con của chính A.
+     * 2. A làm con của C (trong khi C đang là cháu của A).
+     */
+    private void validateNoCyclicDependency(String currentCategoryId, Category newParent) {
+        if (newParent == null) {
+            return; // Trở thành danh mục gốc (Root), luôn hợp lệ
+        }
+
+        // 1. Không thể tự làm con của chính mình
+        if (currentCategoryId.equals(newParent.getId())) {
+            throw new RuntimeException("Danh mục không thể làm danh mục con của chính nó.");
+        }
+
+        // 2. Lần ngược lên trên gia phả của newParent để xem có đụng trúng currentCategory không
+        Category currentAncestor = newParent.getParent();
+        while (currentAncestor != null) {
+            if (currentCategoryId.equals(currentAncestor.getId())) {
+                throw new RuntimeException("Lỗi vòng lặp: Không thể di chuyển danh mục cha vào bên trong danh mục con/cháu của nó.");
+            }
+            // Tiếp tục bò lên trên
+            currentAncestor = currentAncestor.getParent();
+        }
+    }
 }
