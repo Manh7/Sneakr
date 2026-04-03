@@ -1,0 +1,20 @@
+server:
+  port: 8761 # C?ng m?c ??nh ph? bi?n cho Eureka Server
+
+spring:
+  application:
+    name: eureka-server # Tên ??nh danh c?a service trên h? th?ng
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    # Vì ?ây là server, chúng ta không mu?n nó t? ??ng ký chính nó nh? m?t client
+    register-with-eureka: false
+    # Server c?ng không c?n ?i l?y danh sách registry t? ?âu khác
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    # T?t ch? ?? t? b?o v? trong môi tr??ng phát tri?n (Local) ?? Eureka xóa các instance l?i nhanh h?n
+    enable-self-preservation: false
