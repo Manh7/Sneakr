@@ -1,6 +1,6 @@
-package com.ducmanh.orderservice.exception;
+package com.ducmanh.paymentservice.exception;
 
-import com.ducmanh.orderservice.dto.ApiResponse;
+import com.ducmanh.paymentservice.dto.ApiResponse;
 import jakarta.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;

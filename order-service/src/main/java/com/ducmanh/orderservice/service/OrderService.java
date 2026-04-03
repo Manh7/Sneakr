@@ -3,6 +3,7 @@ package com.ducmanh.orderservice.service;
 import com.ducmanh.orderservice.dto.ApiResponse;
 import com.ducmanh.orderservice.dto.request.OrderCreateRequest;
 import com.ducmanh.orderservice.dto.request.OrderItemRequest;
+import com.ducmanh.orderservice.dto.request.OrderStatusUpdateRequest;
 import com.ducmanh.orderservice.dto.response.OrderResponse;
 import com.ducmanh.orderservice.dto.response.ProductVariantResponse;
 import com.ducmanh.orderservice.entity.Order;
@@ -158,5 +159,26 @@ public class OrderService {
 
         return orderResponses;
     }
+
+    // Cập nhật trạng thái đơn hàng (Dành cho admin và paymentservice gọi sang)
+    @Transactional
+    public OrderResponse updateOrderStatus(String orderId, OrderStatusUpdateRequest request){
+        Order order = orderRepository.findById(orderId).orElseThrow(()-> new RuntimeException("không có order hơp lệ"));
+
+        order.setStatus(request.getStatus());
+
+        if(request.getNote() != null || !request.getNote().isEmpty()){
+            // Thêm ghi chú mới vào ghi chú cũ
+            String currentNote = order.getNote() != null ? order.getNote() : "";
+            order.setNote(currentNote + "| Hệ thống/ Admin " + request.getNote());
+        }
+        order = orderRepository.save(order);
+
+        // TODO SAGA PATTERN
+
+
+        return orderMapper.toOrderResponse(order);
+    }
+
 
 }
